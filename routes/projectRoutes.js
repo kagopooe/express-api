@@ -3,53 +3,53 @@ const { request } = require("http");
 const app = express.Router();
 const fixArrayId = require("../helper")
 
-let foodItems = [
-  { name: "Chicken Burrito", id: 1 },
-  { name: "Guacamole", id: 2 },
-  { name: "Soda", id: 3 },
-  { name: "Beef Tacos", id: 4 },
-  { name: "Nachos", id: 5 },
-  { name: "Churros", id: 6 },
-  { name: "Chicken Salad", id: 7 },
-  { name: "Chips", id: 8 },
-  { name: "Chorizo Bowl", id: 9 },
-  { name: "Kid's Steak Tacos", id: 10 },
+let projects = [
+  { name: "Reaction Game", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", github:"github.com/##", live: "netlify.app/111" , id: 1 },
+  { name: "Point of Sale", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", github:"github.com/##", live: "netlify.app/111", id: 2 },
+  { name: "Mock Portfolio", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", github:"github.com/##", live: "netlify.app/111", id: 3 },
+  { name: "Basic Calculator", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", github:"github.com/##", live: "netlify.app/111", id: 4 },
+  { name: "BMI Calculator ", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", github:"github.com/##", live: "netlify.app/111", id: 5 },
+  { name: "Sports Website", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", github:"github.com/##", live: "netlify.app/111", id: 6 },
+  { name: "Data Chart", desc:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", github:"github.com/##", live: "netlify.app/111", id: 7 },
 ];
 
 app.get("/", (req, res) => {
-  res.send(foodItems);
+  res.send(projects);
 });
 
 app.get("/:id", (req, res) => {
-  const foodItem = foodItems.find((foodItem) => foodItem.id == req.params.id);
-  if (!foodItem) res.status(404).send({ msg: "Project not found" });
-  res.send(foodItem);
+  const project = projects.find((project) => project.id == req.params.id);
+  if (!project) res.status(404).send({ msg: "Project not found" });
+  res.send(project);
 });
 
 app.post("/", (req,res) => {   //push to an array
-let {name} = req.body;
-if (!name) res.status(400).send({msg: "Please enter the name of the food"});
-let newItem = {
-    id: foodItems.length + 1,
-    name: req.body.name
+let {name, desc, github, live } = req.body;
+if (!name || desc || github || live) res.status(400).send({msg: "Please enter a valid project"});
+let newProject = {
+    id: projects.length + 1,
+    name, desc, github, live
 
 };
 
-foodItems.push(newItem);
-res.send(newItem);
+projects.push(newProject);
+res.send(newProject);
 
 
 
 }) 
 app.put("/:id", (req,res) => {
-    let foodItem = foodItems.find((foodItem) => foodItem.id == req.params.id);
-        if (!foodItem) res.status(404).send({msg: "Project not found"}); //error send
-    let { name } = req.body; // request name 
+    let project = projects.find((project) => project.id == req.params.id);
+        if (!project) res.status(404).send({msg: "Project not found"}); //error send
+    let { name, desc, github, live } = req.body; // request name 
 
     // write details to project
-    if (name) foodItem.name = name;
+    if (name) project.name = name;
+    if (desc) project.desc = desc;
+    if (github) project.github = github;
+    if (live) project.live = live;
 
-    res.send(FoodItem)
+    res.send(project)
 
 
 
@@ -59,8 +59,8 @@ app.put("/:id", (req,res) => {
 
 
 app.delete("/:id", (req,res) => {
-    foodItems = foodItems.filter((foodItem) => foodItem.id != req.params.id);
-    fixArrayId(foodItems);
+    projects = projects.filter((project) => project.id != req.params.id);
+    fixArrayId(projects);
     res.send({msg: "Item Removed"})
 })
 

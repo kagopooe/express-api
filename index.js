@@ -17,7 +17,7 @@ app.get('/' ,(req,res) => {
 
 
 
-app.use("/foodItems", projectRoutes)
+app.use("/projects", projectRoutes)
 app.use ("/testimonials", testimonialRoutes)
 
 
